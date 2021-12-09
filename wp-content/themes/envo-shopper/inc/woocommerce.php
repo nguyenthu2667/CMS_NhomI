@@ -123,7 +123,7 @@ if (!function_exists('envo_shopper_categories_menu')) {
             <ul class="envo-categories-menu nav navbar-nav navbar-left">
                 <li class="menu-item menu-item-has-children dropdown">
                     <a class="envo-categories-menu-first" href="#">
-                        <?php esc_html_e('Categories', 'envo-shopper'); ?>
+                        <?php esc_html_e('Loại sản phẩm', 'envo-shopper'); ?>
                     </a>
                     <?php
                     wp_nav_menu(array(
@@ -178,9 +178,9 @@ if (!function_exists('envo_shopper_head_search_bar')) {
         <div class="header-search-form">
             <form role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
                 <input type="hidden" name="post_type" value="product" />
-                <input class="header-search-input" name="s" type="text" placeholder="<?php esc_attr_e('Search products...', 'envo-shopper'); ?>"/>
+                <input class="header-search-input" name="s" type="text" placeholder="<?php esc_attr_e('Nhập tên sản phẩm', 'envo-shopper'); ?>"/>
                 <select class="header-search-select" name="product_cat">
-                    <option value=""><?php esc_html_e('All Categories', 'envo-shopper'); ?></option> 
+                    <option value=""><?php esc_html_e('Tất cả loại sản phẩm', 'envo-shopper'); ?></option> 
                     <?php
                     $categories = get_categories('taxonomy=product_cat');
                     foreach ($categories as $category) {
