@@ -1,3 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- link add file css và file php -->
+<link rel="stylesheet" href="<?php echo get_template_directory_uri() ?>/header.css">  
+
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
 <?php do_action('envo_shopper_construct_top_bar'); ?>
 <div class="site-header container-fluid">
     <div class="<?php echo esc_attr(get_theme_mod('header_content_width', 'container')); ?>" >
@@ -7,9 +22,7 @@
             </div>
             <div class="heading-widget-area">    
                 <?php if (is_active_sidebar('envo-shopper-header-area')) { ?>
-                    <div class="site-heading-sidebar" >
-                        <?php dynamic_sidebar('envo-shopper-header-area'); ?>
-                    </div>
+                    
                 <?php } ?>
             </div>
             <div class="site-heading mobile-heading visible-xs" >
