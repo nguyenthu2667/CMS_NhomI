@@ -5,6 +5,7 @@ use Elementor\Controls_Manager;
 use Elementor\Core\Base\Document;
 use Elementor\Core\Base\Module as BaseModule;
 use Elementor\Core\Kits\Documents\Kit;
+use Elementor\DB;
 use Elementor\Plugin;
 use Elementor\Utils;
 use Elementor\Core\DocumentTypes\PageBase as PageBase;
@@ -23,11 +24,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 2.0.0
  */
 class Module extends BaseModule {
-
-	/**
-	 * The of the theme.
-	 */
-	const TEMPLATE_THEME = 'elementor_theme';
 
 	/**
 	 * Elementor Canvas template name.
@@ -83,12 +79,10 @@ class Module extends BaseModule {
 		if ( is_singular() ) {
 			$document = Plugin::$instance->documents->get_doc_for_frontend( get_the_ID() );
 
-			if ( $document && $document::get_property( 'support_wp_page_templates' ) ) {
-				$page_template = $document->get_meta( '_wp_page_template' );
+			if ( $document ) {
+				$template_path = $this->get_template_path( $document->get_meta( '_wp_page_template' ) );
 
-				$template_path = $this->get_template_path( $page_template );
-
-				if ( self::TEMPLATE_THEME !== $page_template && ! $template_path && $document->is_built_with_elementor() ) {
+				if ( ! $template_path && $document->is_built_with_elementor() ) {
 					$kit_default_template = Plugin::$instance->kits_manager->get_current_settings( 'default_page_template' );
 					$template_path = $this->get_template_path( $kit_default_template );
 				}
@@ -156,7 +150,6 @@ class Module extends BaseModule {
 		$page_templates = [
 			self::TEMPLATE_CANVAS => _x( 'Elementor Canvas', 'Page Template', 'elementor' ),
 			self::TEMPLATE_HEADER_FOOTER => _x( 'Elementor Full Width', 'Page Template', 'elementor' ),
-			self::TEMPLATE_THEME => _x( 'Theme', 'Page Template', 'elementor' ),
 		] + $page_templates;
 
 		return $page_templates;
@@ -289,11 +282,11 @@ class Module extends BaseModule {
 	public function add_template_controls( Document $document, $control_id, $control_options ) {
 		// Default Control Options
 		$default_control_options = [
-			'label' => esc_html__( 'Page Layout', 'elementor' ),
+			'label' => __( 'Page Layout', 'elementor' ),
 			'type' => Controls_Manager::SELECT,
 			'default' => 'default',
 			'options' => [
-				'default' => esc_html__( 'Default', 'elementor' ),
+				'default' => __( 'Default', 'elementor' ),
 			],
 		];
 
@@ -308,7 +301,7 @@ class Module extends BaseModule {
 			$control_id . '_default_description',
 			[
 				'type' => Controls_Manager::RAW_HTML,
-				'raw' => '<b>' . esc_html__( 'The default page template as defined in Elementor Panel → Hamburger Menu → Site Settings.', 'elementor' ) . '</b>',
+				'raw' => '<b>' . __( 'Default Page Template from your theme', 'elementor' ) . '</b>',
 				'content_classes' => 'elementor-descriptor',
 				'condition' => [
 					$control_id => 'default',
@@ -317,22 +310,10 @@ class Module extends BaseModule {
 		);
 
 		$document->add_control(
-			$control_id . '_theme_description',
-			[
-				'type' => Controls_Manager::RAW_HTML,
-				'raw' => '<b>' . esc_html__( 'Default Page Template from your theme.', 'elementor' ) . '</b>',
-				'content_classes' => 'elementor-descriptor',
-				'condition' => [
-					$control_id => self::TEMPLATE_THEME,
-				],
-			]
-		);
-
-		$document->add_control(
 			$control_id . '_canvas_description',
 			[
 				'type' => Controls_Manager::RAW_HTML,
-				'raw' => '<b>' . esc_html__( 'No header, no footer, just Elementor', 'elementor' ) . '</b>',
+				'raw' => '<b>' . __( 'No header, no footer, just Elementor', 'elementor' ) . '</b>',
 				'content_classes' => 'elementor-descriptor',
 				'condition' => [
 					$control_id => self::TEMPLATE_CANVAS,
@@ -344,7 +325,7 @@ class Module extends BaseModule {
 			$control_id . '_header_footer_description',
 			[
 				'type' => Controls_Manager::RAW_HTML,
-				'raw' => '<b>' . esc_html__( 'This template includes the header, full-width content and footer', 'elementor' ) . '</b>',
+				'raw' => '<b>' . __( 'This template includes the header, full-width content and footer', 'elementor' ) . '</b>',
 				'content_classes' => 'elementor-descriptor',
 				'condition' => [
 					$control_id => self::TEMPLATE_HEADER_FOOTER,
@@ -357,7 +338,7 @@ class Module extends BaseModule {
 				'reload_preview_description',
 				[
 					'type' => Controls_Manager::RAW_HTML,
-					'raw' => esc_html__( 'Changes will be reflected in the preview only after the page reloads.', 'elementor' ),
+					'raw' => __( 'Changes will be reflected in the preview only after the page reloads.', 'elementor' ),
 					'content_classes' => 'elementor-descriptor',
 				]
 			);
@@ -390,11 +371,11 @@ class Module extends BaseModule {
 
 			$ajax_data = $ajax->get_current_action_data();
 
-			$is_autosave_action = $ajax_data && 'save_builder' === $ajax_data['action'] && Document::STATUS_AUTOSAVE === $ajax_data['data']['status'];
+			$is_autosave_action = $ajax_data && 'save_builder' === $ajax_data['action'] && DB::STATUS_AUTOSAVE === $ajax_data['data']['status'];
 
 			// Don't allow WP to update the parent page template.
 			// (during `wp_update_post` from page-settings or save_plain_text).
-			if ( $is_autosave_action && ! wp_is_post_autosave( $object_id ) && Document::STATUS_DRAFT !== get_post_status( $object_id ) ) {
+			if ( $is_autosave_action && ! wp_is_post_autosave( $object_id ) && DB::STATUS_DRAFT !== get_post_status( $object_id ) ) {
 				$check = false;
 			}
 		}

@@ -1079,7 +1079,7 @@ if ( ! function_exists( 'woocommerce_page_title' ) ) {
 
 		if ( is_search() ) {
 			/* translators: %s: search query */
-			$page_title = sprintf( __( 'Search results: &ldquo;%s&rdquo;', 'woocommerce' ), get_search_query() );
+			$page_title = sprintf( __( 'Kết quả tìm kiếm : &ldquo;%s&rdquo;', 'woocommerce' ), get_search_query() );
 
 			if ( get_query_var( 'paged' ) ) {
 				/* translators: %s: page number */
@@ -1831,7 +1831,7 @@ if ( ! function_exists( 'woocommerce_default_product_tabs' ) ) {
 		// Description tab - shows product content.
 		if ( $post->post_content ) {
 			$tabs['description'] = array(
-				'title'    => __( 'Description', 'woocommerce' ),
+				'title'    => __( 'Mô tả', 'woocommerce' ),
 				'priority' => 10,
 				'callback' => 'woocommerce_product_description_tab',
 			);
@@ -1850,7 +1850,7 @@ if ( ! function_exists( 'woocommerce_default_product_tabs' ) ) {
 		if ( comments_open() ) {
 			$tabs['reviews'] = array(
 				/* translators: %s: reviews count */
-				'title'    => sprintf( __( 'Reviews (%d)', 'woocommerce' ), $product->get_review_count() ),
+				'title'    => sprintf( __( 'Nhận xét (%d)', 'woocommerce' ), $product->get_review_count() ),
 				'priority' => 30,
 				'callback' => 'comments_template',
 			);

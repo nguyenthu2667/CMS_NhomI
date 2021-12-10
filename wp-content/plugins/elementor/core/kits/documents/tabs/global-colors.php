@@ -21,26 +21,14 @@ class Global_Colors extends Tab_Base {
 	}
 
 	public function get_title() {
-		return esc_html__( 'Global Colors', 'elementor' );
-	}
-
-	public function get_group() {
-		return 'global';
-	}
-
-	public function get_icon() {
-		return 'eicon-global-colors';
-	}
-
-	public function get_help_url() {
-		return 'https://go.elementor.com/global-colors';
+		return __( 'Global Colors', 'elementor' );
 	}
 
 	protected function register_tab_controls() {
 		$this->start_controls_section(
 			'section_global_colors',
 			[
-				'label' => esc_html__( 'Global Colors', 'elementor' ),
+				'label' => __( 'Global Colors', 'elementor' ),
 				'tab' => $this->get_id(),
 			]
 		);
@@ -75,22 +63,22 @@ class Global_Colors extends Tab_Base {
 		$default_colors = [
 			[
 				'_id' => 'primary',
-				'title' => esc_html__( 'Primary', 'elementor' ),
+				'title' => __( 'Primary', 'elementor' ),
 				'color' => '#6EC1E4',
 			],
 			[
 				'_id' => 'secondary',
-				'title' => esc_html__( 'Secondary', 'elementor' ),
+				'title' => __( 'Secondary', 'elementor' ),
 				'color' => '#54595F',
 			],
 			[
 				'_id' => 'text',
-				'title' => esc_html__( 'Text', 'elementor' ),
+				'title' => __( 'Text', 'elementor' ),
 				'color' => '#7A7A7A',
 			],
 			[
 				'_id' => 'accent',
-				'title' => esc_html__( 'Accent', 'elementor' ),
+				'title' => __( 'Accent', 'elementor' ),
 				'color' => '#61CE70',
 			],
 		];
