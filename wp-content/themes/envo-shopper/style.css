@@ -444,7 +444,7 @@ a:active {
         width: 86px;
         height: 86px;
         line-height: 66px;
-        padding-top: 30px;
+        /* padding-top: 30px; */
     }
     .header-wishlist.float-wishlist {
         top: 320px;
@@ -681,9 +681,13 @@ a:active {
         padding-bottom: 0px!important;
     }
 }
+::placeholder { 
+font-size:  1.4rem !important;
+}
 
 .site-menu-bar {
     border-bottom: 1px solid #acacac;
+    background-color: #ff6300;
 }
 
 #my-menu-right li.menu-item-has-children>a:before {
@@ -1274,6 +1278,7 @@ select.header-search-select {
     height: 47px;
     background-color: #fff;
     border-left: 1px solid #ececec;
+    font-size: 1.4rem;
 }
 
 input.header-search-input {
@@ -1288,6 +1293,7 @@ input.header-search-input {
     background-color: transparent;
     padding-left: 15px;
     border-radius: 0px;
+    /* font-size: 1.4rem; */
 }
 
 button.header-search-button {
