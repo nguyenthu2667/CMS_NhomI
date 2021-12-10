@@ -5,7 +5,6 @@ use Elementor\Core\Base\App as BaseApp;
 use Elementor\Core\Settings\Manager as SettingsManager;
 use Elementor\Plugin;
 use Elementor\TemplateLibrary\Source_Local;
-use Elementor\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -36,8 +35,8 @@ class App extends BaseApp {
 	public function register_admin_menu() {
 		add_submenu_page(
 			Source_Local::ADMIN_MENU_SLUG,
-			esc_html__( 'Theme Builder', 'elementor' ),
-			esc_html__( 'Theme Builder', 'elementor' ),
+			__( 'Theme Builder', 'elementor' ),
+			__( 'Theme Builder', 'elementor' ),
 			'manage_options',
 			self::PAGE_ID
 		);
@@ -47,11 +46,6 @@ class App extends BaseApp {
 		global $submenu;
 
 		if ( is_multisite() && is_network_admin() ) {
-			return $menu;
-		}
-
-		// Non admin role / custom wp menu.
-		if ( empty( $submenu[ Source_Local::ADMIN_MENU_SLUG ] ) ) {
 			return $menu;
 		}
 
@@ -91,9 +85,6 @@ class App extends BaseApp {
 			'menu_url' => $this->get_base_url() . '#site-editor/promotion',
 			'assets_url' => ELEMENTOR_ASSETS_URL,
 			'return_url' => isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : admin_url(),
-			'hasPro' => Utils::has_pro(),
-			'admin_url' => admin_url(),
-			'login_url' => wp_login_url(),
 		];
 	}
 
@@ -148,7 +139,7 @@ class App extends BaseApp {
 			'elementor-icons',
 			$this->get_css_assets_url( 'elementor-icons', 'assets/lib/eicons/css/' ),
 			[],
-			'5.13.0'
+			'5.6.2'
 		);
 
 		wp_register_style(
@@ -158,18 +149,10 @@ class App extends BaseApp {
 			ELEMENTOR_VERSION
 		);
 
-		wp_register_style(
-			'select2',
-			ELEMENTOR_ASSETS_URL . 'lib/e-select2/css/e-select2.css',
-			[],
-			'4.0.6-rc.1'
-		);
-
 		wp_enqueue_style(
 			'elementor-app',
 			$this->get_css_assets_url( 'app', null, 'default', true ),
 			[
-				'select2',
 				'elementor-icons',
 				'elementor-common',
 				'select2',
@@ -202,7 +185,6 @@ class App extends BaseApp {
 			'elementor-app',
 			$this->get_js_assets_url( 'app' ),
 			[
-				'wp-url',
 				'wp-i18n',
 				'react',
 				'react-dom',
@@ -236,13 +218,6 @@ class App extends BaseApp {
 
 	public function __construct() {
 		$this->add_component( 'site-editor', new Modules\SiteEditor\Module() );
-
-		if ( current_user_can( 'manage_options' ) && Plugin::$instance->experiments->is_feature_active( 'e_import_export' ) || Utils::is_wp_cli() ) {
-			$this->add_component( 'import-export', new Modules\ImportExport\Module() );
-
-			// Kit library is depended on import-export
-			$this->add_component( 'kit-library', new Modules\KitLibrary\Module() );
-		}
 
 		add_action( 'admin_menu', [ $this, 'register_admin_menu' ], 21 /* after Elementor page */ );
 
