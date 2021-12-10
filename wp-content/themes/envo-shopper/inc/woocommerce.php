@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?php echo get_template_directory_uri() ?>/ header-home.css">
+<!-- <link rel="stylesheet" href="<?php //echo get_template_directory_uri() ?>/header-home.css"> -->
 <?php
 if (!function_exists('envo_shopper_cart_link')) {
 
