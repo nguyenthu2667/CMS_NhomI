@@ -1,3 +1,17 @@
+<style>
+    .hktt{
+        width: 300px;
+    height: 300px;
+    margin-top: 12%;
+    margin-left: 34%;
+}
+.ktimthay{
+    margin-top: 12%;
+    margin-left: 20%;
+    font-size: 30px;
+    font-weight: 700;
+}
+</style>
 <?php
 /**
  * Displayed when no products are found matching the current query
@@ -18,4 +32,7 @@
 defined( 'ABSPATH' ) || exit;
 
 ?>
-<p class="woocommerce-info"><?php esc_html_e( 'No products were found matching your selection.', 'woocommerce' ); ?></p>
+<p><img class="hktt" src="http://wordpress.local/wp-content/uploads/2021/12/264358245_220581750115314_4500392256993698191_n.png" alt=""></p> 
+<p class="ktimthay"><?php esc_html_e('Không thể tìm thấy sản phẩm bạn mong muốn'); ?></p>
+
+
